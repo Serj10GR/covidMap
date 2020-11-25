@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react'
+import MyMap from './components/Map'
 
-function App() {
+const App = () => {
+  const [data, setData] = useState([])
+
+  const getData = async () => {
+    const res = await fetch(`https://covid19.mathdro.id/api/confirmed`)
+    const data = await res.json()
+    setData(data)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <MyMap data={data} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
